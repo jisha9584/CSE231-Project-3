@@ -1,160 +1,128 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+###########################################################################
+#    Computer Project #3
+#
+#    Algorithm
+#        Prompt user: "Do you wish to process a triangle?"
+#        if yes the user enters a loop or else exit loop
+#            Input the lengths of the 3 sides of triangle
+#            Check if sum of any two sides > third
+#                Calculate the angles in degrees and radians
+#                Calculate perimeter, semi-perimeter and area
+#                Output the values
+#                Check and output if triangle is isosceles, scalene, 
+#                equilateral, right, oblique and obtuse
+#            Elif, check and output if triangle is degenerate
+#            Else, output that it is not a triangle
+#       Print number of valid triangles    
+###########################################################################
 
-# C extensions
-*.so
+import math
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+BANNER = '''
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+╭━━━━╮╱╱╱╱╱╱╱╱╱╱╭╮
+┃╭╮╭╮┃╱╱╱╱╱╱╱╱╱╱┃┃
+╰╯┃┃┣┻┳┳━━┳━╮╭━━┫┃╭━━╮
+╱╱┃┃┃╭╋┫╭╮┃╭╮┫╭╮┃┃┃┃━┫
+╱╱┃┃┃┃┃┃╭╮┃┃┃┃╰╯┃╰┫┃━┫
+╱╱╰╯╰╯╰┻╯╰┻╯╰┻━╮┣━┻━━╯
+╱╱╱╱╱╱╱╱╱╱╱╱╱╭━╯┃
+╱╱╱╱╱╱╱╱╱╱╱╱╱╰━━╯
+'''
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+print(BANNER)
+print()
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
+count_int=0  #Variable count_int for number of "valid" triangles
+main_str = input("Do you wish to process a triangle (Y or N)?  ")
+while main_str=='Y' or main_str=='y':  # Loop for users who say Y
+    #Prompt to input length of 3 sides of triangle
+    sideone_int = int(input('\nEnter length of side AB: ')) 
+    sidetwo_int = int(input('\nEnter length of side BC: '))
+    sidethree_int = int(input('\nEnter length of side CA: '))
+    
+    #If sum of any two sides of triangle > the third
+    if sideone_int + sidetwo_int > sidethree_int and \
+    sidetwo_int + sidethree_int > sideone_int and \
+    sideone_int + sidethree_int > sidetwo_int:
+        #Using the cosine law- calculate angles of triangle
+        angleoner_flt = math.acos((sideone_int**2 + sidethree_int**2 \
+        - sidetwo_int**2) / (2*sideone_int*sidethree_int))
+        angletwor_flt = math.acos((sideone_int**2 + sidetwo_int**2 \
+        - sidethree_int**2) / (2*sideone_int*sidetwo_int))
+        anglethreer_flt = math.acos((sidetwo_int**2 + sidethree_int**2 \
+        - sideone_int**2) / (2*sidetwo_int*sidethree_int))
+        
+        #Converting angles: radians --> decimals
+        angleoned_flt = angleoner_flt * 180 / math.pi
+        angletwod_flt = angletwor_flt * 180 / math.pi
+        anglethreed_flt = anglethreer_flt * 180 / math.pi
+        
+        #Calculating perimeter, semi-perimeter and area of triangle
+        perimeter_flt = float(sideone_int + sidetwo_int + sidethree_int)
+        semiperimeter_flt = perimeter_flt/2
+        sp = semiperimeter_flt
+        area_flt = math.sqrt(sp*(sp-sideone_int)*(sp-sidetwo_int) \
+                             *(sp-sidethree_int))  #Heron's formula
+        
+        print("\n\n  Valid Triangle" )
+        
+        print("\n  Triangle sides:")
+        print("    Length of side AB:", float(sideone_int))
+        print("    Length of side BC:", float(sidetwo_int))
+        print("    Length of side CA:", float(sidethree_int))
+        
+        print("\n  Degree measure of interior angles:")
+        #Rounding angles to 1 d.p.
+        print("    Angle A:", round(angleoned_flt, 1))
+        print("    Angle B:", round(angletwod_flt, 1))
+        print("    Angle C:", round(anglethreed_flt, 1))
+        
+        print("\n  Radian measure of interior angles:")
+        #Rounding angles to 1 d.p.
+        print("    Angle A:", round(angleoner_flt, 1))
+        print("    Angle B:", round(angletwor_flt, 1))
+        print("    Angle C:", round(anglethreer_flt, 1))
+        
+        print("\n  Perimeter and Area of triangle:")
+        print("    Perimeter of triangle:", perimeter_flt)
+        #Rounding area of triangle to 1 d.p.
+        print("    Area of triangle:", round(area_flt, 1))
+        
+        print("\n  Types of triangle:")
+        if sideone_int!=sidetwo_int and sideone_int!=sidethree_int and \
+            sidetwo_int!=sidethree_int: #Checking if it is a scalene triangle
+            print("    Scalene Triangle" )
+        
+        elif sideone_int == sidetwo_int and sidetwo_int == sidethree_int \
+            and sideone_int == sidethree_int: #Checking for equilateral 
+            print("    Isosceles Triangle")
+            print("    Equilateral Triangle")
+        else:
+            print("    Isosceles Triangle")
 
-# Translations
-*.mo
-*.pot
+         #If any angle is right angles
+        if angleoned_flt == 90 or angletwod_flt == 90 \
+            or anglethreed_flt == 90:
+            print("    Right Triangle")
+        else:
+            print("    Oblique Triangle")
+        
+        #If any angle is obtuse
+        if angleoned_flt > 90 or angletwod_flt > 90 \
+            or anglethreed_flt > 90:
+            print("    Obtuse Triangle")
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+        count_int += 1
 
-# Flask stuff:
-instance/
-.webassets-cache
+    elif sideone_int + sidetwo_int == sidethree_int or \
+    sidetwo_int + sidethree_int**2 == sideone_int**2 or \
+    sideone_int**2 + sidethree_int**2 == sidetwo_int**2: # 
+        print("\n\n  Degenerate Triangle")
+    else:
+        print("\n\n  Not a Triangle" )
+    
+    main_str=input("\nDo you wish to process another triangle? (Y or N) ")
 
-# Scrapy stuff:
-.scrapy
-
-# Sphinx documentation
-docs/_build/
-
-# PyBuilder
-.pybuilder/
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-#   For a library or package, you might want to ignore these files since the code is
-#   intended to run in multiple environments; otherwise, check them in:
-# .python-version
-
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# poetry
-#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
-#poetry.lock
-
-# pdm
-#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
-#pdm.lock
-#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
-#   in version control.
-#   https://pdm.fming.dev/#use-with-ide
-.pdm.toml
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-# pytype static type analyzer
-.pytype/
-
-# Cython debug symbols
-cython_debug/
-
-# PyCharm
-#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+#Printing the number of "valid" triangles
+print("\nNumber of valid triangles:", count_int)
